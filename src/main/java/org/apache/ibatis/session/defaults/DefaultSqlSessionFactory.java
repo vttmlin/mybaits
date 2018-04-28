@@ -42,7 +42,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
      * 当调用 SqlSessionFactory.openSession 方法的时候 由于实例化的是 DefaultSqlSessionFactory 所以会走这个方法
      * {@link org.apache.ibatis.session.SqlSessionFactoryBuilder#build(org.apache.ibatis.session.Configuration)} 在这个方法中有一个 return new DefaultSqlSessionFactory(config)
      * 默认是 是simple 解析器 且 事物不自动提交
-     * */
+     */
     @Override
     public SqlSession openSession() {
         return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
@@ -91,7 +91,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     /**
      * {@link DefaultSqlSessionFactory#openSession()}
      * 在上一步中 设置了执行器是 simple 且 事物不自动提交
-     * */
+     */
     private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level, boolean autoCommit) {
         Transaction tx = null;
         try {
@@ -105,6 +105,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
             closeTransaction(tx); // may have fetched a connection so lets call close()
             throw ExceptionFactory.wrapException("Error opening session.  Cause: " + e, e);
         } finally {
+//            重置所有数据
             ErrorContext.instance().reset();
         }
     }
@@ -133,8 +134,8 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
     /**
      * {@link DefaultSqlSessionFactory#openSessionFromDataSource(org.apache.ibatis.session.ExecutorType, org.apache.ibatis.session.TransactionIsolationLevel, boolean)}
-     * 这一步 返回了 transactionFactory
-     * */
+     * 这一步 返回了 transactionFactory [ JdbcTransactionFactory ]
+     */
     private TransactionFactory getTransactionFactoryFromEnvironment(Environment environment) {
         if (environment == null || environment.getTransactionFactory() == null) {
             return new ManagedTransactionFactory();

@@ -17,6 +17,7 @@
 package org.apache.ibatis.reflection;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
@@ -110,6 +111,9 @@ public class ParamNameResolver {
      * In addition to the default names, this method also adds the generic names (param1, param2,
      * ...).
      * </p>
+     */
+    /**
+     * {@link MapperMethod.MethodSignature#convertArgsToSqlCommandParam(java.lang.Object[])}
      */
     public Object getNamedParams(Object[] args) {
         final int paramCount = names.size();

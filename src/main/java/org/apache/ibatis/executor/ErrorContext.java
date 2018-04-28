@@ -34,7 +34,9 @@ public class ErrorContext {
     private ErrorContext() {
     }
 
-    /**这地方感觉有点像单例 如果有 就返回 没有就new一个 然后放到容器中 然后返回*/
+    /**
+     * 这地方感觉有点像单例 如果有 就返回 没有就new一个 然后放到容器中 然后返回
+     */
     public static ErrorContext instance() {
         ErrorContext context = LOCAL.get();
         if (context == null) {

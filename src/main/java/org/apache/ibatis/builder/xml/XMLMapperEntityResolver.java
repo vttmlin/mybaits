@@ -68,7 +68,7 @@ public class XMLMapperEntityResolver implements EntityResolver {
     /**
      * 这里是将路径转化成 InputStream 然后在转化成 InputSource
      * {@link XMLMapperEntityResolver#resolveEntity(java.lang.String, java.lang.String)}
-     * */
+     */
     private InputSource getInputSource(String path, String publicId, String systemId) {
         InputSource source = null;
         if (path != null) {

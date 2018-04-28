@@ -16,6 +16,8 @@
  * Parses annotions to create a Configuration
  * <p>
  * Parses annotions to create a Configuration
+ * <p>
+ * Parses annotions to create a Configuration
  */
 /**
  * Parses annotions to create a Configuration

@@ -50,6 +50,10 @@ public class DefaultSqlSession implements SqlSession {
     private boolean dirty;
     private List<Cursor<?>> cursorList;
 
+    /**
+     * {@link DefaultSqlSessionFactory#openSessionFromDataSource(org.apache.ibatis.session.ExecutorType, org.apache.ibatis.session.TransactionIsolationLevel, boolean)}
+     * 这一步是调用的构造方法 返回默认的sqlsession
+     */
     public DefaultSqlSession(Configuration configuration, Executor executor, boolean autoCommit) {
         this.configuration = configuration;
         this.executor = executor;
@@ -66,6 +70,10 @@ public class DefaultSqlSession implements SqlSession {
         return this.<T>selectOne(statement, null);
     }
 
+    /**
+     * {@link org.apache.ibatis.binding.MapperMethod#execute(org.apache.ibatis.session.SqlSession, java.lang.Object[])}
+     * 其实这个是用的 是多行查询 但是如果返回的不是单行就报错
+     */
     @Override
     public <T> T selectOne(String statement, Object parameter) {
         // Popular vote was to return null on 0 results and throw exception on too many.
@@ -131,14 +139,21 @@ public class DefaultSqlSession implements SqlSession {
         return this.selectList(statement, null);
     }
 
+    /**
+     * {@link DefaultSqlSession#selectOne(java.lang.String, java.lang.Object)}
+     */
     @Override
     public <E> List<E> selectList(String statement, Object parameter) {
         return this.selectList(statement, parameter, RowBounds.DEFAULT);
     }
 
+    /**
+     * {@link DefaultSqlSession#selectList(java.lang.String, java.lang.Object)}
+     */
     @Override
     public <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds) {
         try {
+//            获取执行的语句的信息
             MappedStatement ms = configuration.getMappedStatement(statement);
             return executor.query(ms, wrapCollection(parameter), rowBounds, Executor.NO_RESULT_HANDLER);
         } catch (Exception e) {
@@ -282,6 +297,9 @@ public class DefaultSqlSession implements SqlSession {
         return configuration;
     }
 
+    /**
+     * 当调用getMapper 会返回 DefaultSqlSession
+     */
     @Override
     public <T> T getMapper(Class<T> type) {
         return configuration.<T>getMapper(type, this);

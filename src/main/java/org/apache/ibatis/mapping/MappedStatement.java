@@ -16,6 +16,7 @@
 package org.apache.ibatis.mapping;
 
 import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.executor.CachingExecutor;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
@@ -169,6 +170,9 @@ public final class MappedStatement {
         return resultSets;
     }
 
+    /**
+     * {@link CachingExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler)}
+     */
     public BoundSql getBoundSql(Object parameterObject) {
         BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();

@@ -187,6 +187,9 @@ public abstract class BaseExecutor implements Executor {
         }
     }
 
+    /**
+     * {@link CachingExecutor#createCacheKey(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.mapping.BoundSql)}
+     */
     @Override
     public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql) {
         if (closed) {

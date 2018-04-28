@@ -36,6 +36,9 @@ public class MapperRegistry {
         this.config = config;
     }
 
+    /**
+     * {@link Configuration#getMapper(java.lang.Class, org.apache.ibatis.session.SqlSession)}
+     */
     @SuppressWarnings("unchecked")
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
         final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);

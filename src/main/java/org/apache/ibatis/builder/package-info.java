@@ -16,6 +16,8 @@
  * Base package for the Configuration building code
  * <p>
  * Base package for the Configuration building code
+ * <p>
+ * Base package for the Configuration building code
  */
 /**
  * Base package for the Configuration building code

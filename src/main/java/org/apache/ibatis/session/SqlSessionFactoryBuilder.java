@@ -47,8 +47,7 @@ public class SqlSessionFactoryBuilder {
 
     /**
      * 这一步用无参构造之后调用的这个 通过这个调用下面的方法
-     *
-     * */
+     */
     public SqlSessionFactory build(InputStream inputStream) {
         return build(inputStream, null, null);
     }
@@ -61,12 +60,13 @@ public class SqlSessionFactoryBuilder {
         return build(inputStream, null, properties);
     }
 
-/**
- * {@link SqlSessionFactoryBuilder#build(java.io.InputStream)}
- * 通过上一步完成 SqlSessionFactoryBuilder 实例化 通过重载这个方法开始读取xml 上个方法传递过来的
- * @param inputStream null
- * @param properties null
- * */
+    /**
+     * {@link SqlSessionFactoryBuilder#build(java.io.InputStream)}
+     * 通过上一步完成 SqlSessionFactoryBuilder 实例化 通过重载这个方法开始读取xml 上个方法传递过来的
+     *
+     * @param inputStream null
+     * @param properties  null
+     */
     public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
         try {
             XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);
@@ -87,7 +87,7 @@ public class SqlSessionFactoryBuilder {
     /**
      * 上一步将document解析出来后 转换成 Configuration 然后在调用 DefaultSqlSessionFactory的构造方法 返回 SqlSessionFactory对象
      * {@link SqlSessionFactoryBuilder#build(java.io.InputStream, java.lang.String, java.util.Properties)}
-     * */
+     */
     public SqlSessionFactory build(Configuration config) {
         return new DefaultSqlSessionFactory(config);
     }

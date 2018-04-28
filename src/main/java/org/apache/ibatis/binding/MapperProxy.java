@@ -44,6 +44,9 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
         this.methodCache = methodCache;
     }
 
+    /**
+     * 调用接口的方法 实际上是调用这个方法
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
@@ -59,8 +62,12 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
         return mapperMethod.execute(sqlSession, args);
     }
 
+    /**
+     * {@link MapperProxy#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])}
+     */
     private MapperMethod cachedMapperMethod(Method method) {
         MapperMethod mapperMethod = methodCache.get(method);
+        // 这里只会加载一次 入股要有 就不会初始化
         if (mapperMethod == null) {
             mapperMethod = new MapperMethod(mapperInterface, method, sqlSession.getConfiguration());
             methodCache.put(method, mapperMethod);
@@ -68,6 +75,9 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
         return mapperMethod;
     }
 
+    /**
+     * {@link MapperProxy#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])}
+     */
     @UsesJava7
     private Object invokeDefaultMethod(Object proxy, Method method, Object[] args)
             throws Throwable {
@@ -85,7 +95,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     }
 
     /**
-     * Backport of java.lang.reflect.Method#isDefault()
+     * {@link MapperProxy#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])}
      */
     private boolean isDefaultMethod(Method method) {
         return (method.getModifiers()

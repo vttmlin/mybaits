@@ -15,6 +15,8 @@
  */
 package org.apache.ibatis.plugin;
 
+import org.apache.ibatis.session.Configuration;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +28,12 @@ public class InterceptorChain {
 
     private final List<Interceptor> interceptors = new ArrayList<Interceptor>();
 
+    /**
+     * {@link Configuration#newExecutor(org.apache.ibatis.transaction.Transaction, org.apache.ibatis.session.ExecutorType)}
+     */
     public Object pluginAll(Object target) {
         for (Interceptor interceptor : interceptors) {
+//            这个是注册的插件 开始依次加载你的plugin了
             target = interceptor.plugin(target);
         }
         return target;

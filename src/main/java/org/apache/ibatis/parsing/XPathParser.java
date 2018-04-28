@@ -119,7 +119,7 @@ public class XPathParser {
     /**
      * 在这一步调用 createDocument
      * {@link XMLConfigBuilder#XMLConfigBuilder(java.io.InputStream, java.lang.String, java.util.Properties)}
-     * */
+     */
     public XPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {
         commonConstructor(validation, variables, entityResolver);
         this.document = createDocument(new InputSource(inputStream));
@@ -229,7 +229,7 @@ public class XPathParser {
     /**
      * {@link XPathParser#XPathParser(java.io.InputStream, boolean, java.util.Properties, org.xml.sax.EntityResolver)}
      * 这一步返回document 对象
-     * */
+     */
     private Document createDocument(InputSource inputSource) {
         // important: this must only be called AFTER common constructor
         try {

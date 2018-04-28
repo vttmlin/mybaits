@@ -42,11 +42,19 @@ public class MapperProxyFactory<T> {
         return methodCache;
     }
 
+    /**
+     * 用jdk动态代理 返回代理的实例化对象
+     * {@link MapperProxyFactory#newInstance(org.apache.ibatis.session.SqlSession)}
+     */
     @SuppressWarnings("unchecked")
     protected T newInstance(MapperProxy<T> mapperProxy) {
+        // Proxy.newProxyInstance ( 类加载器 , 接口 , 动态代理 )
         return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[]{mapperInterface}, mapperProxy);
     }
 
+    /**
+     * {@link MapperRegistry#getMapper(java.lang.Class, org.apache.ibatis.session.SqlSession)}
+     */
     public T newInstance(SqlSession sqlSession) {
         final MapperProxy<T> mapperProxy = new MapperProxy<T>(sqlSession, mapperInterface, methodCache);
         return newInstance(mapperProxy);

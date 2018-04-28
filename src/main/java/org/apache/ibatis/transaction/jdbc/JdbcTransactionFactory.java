@@ -16,6 +16,7 @@
 package org.apache.ibatis.transaction.jdbc;
 
 import org.apache.ibatis.session.TransactionIsolationLevel;
+import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
 
@@ -40,6 +41,10 @@ public class JdbcTransactionFactory implements TransactionFactory {
         return new JdbcTransaction(conn);
     }
 
+    /**
+     * {@link DefaultSqlSessionFactory#openSessionFromDataSource(org.apache.ibatis.session.ExecutorType, org.apache.ibatis.session.TransactionIsolationLevel, boolean)}
+     * 返回了 Transaction [ JdbcTransaction ]
+     */
     @Override
     public Transaction newTransaction(DataSource ds, TransactionIsolationLevel level, boolean autoCommit) {
         return new JdbcTransaction(ds, level, autoCommit);

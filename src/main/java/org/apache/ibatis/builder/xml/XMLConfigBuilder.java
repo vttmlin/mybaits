@@ -76,14 +76,14 @@ public class XMLConfigBuilder extends BaseBuilder {
 
     /**
      * {@link SqlSessionFactoryBuilder#build(java.io.InputStream, java.lang.String, java.util.Properties)}
-     * */
+     */
     public XMLConfigBuilder(InputStream inputStream, String environment, Properties props) {
         this(new XPathParser(inputStream, true, props, new XMLMapperEntityResolver()), environment, props);
     }
 
     /**
      * {@link XMLConfigBuilder#XMLConfigBuilder(java.io.InputStream, java.lang.String, java.util.Properties)}
-     * */
+     */
     private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
         super(new Configuration());
         ErrorContext.instance().resource("SQL Mapper Configuration");
@@ -95,7 +95,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
     /**
      * {@link SqlSessionFactoryBuilder#build(java.io.InputStream, java.lang.String, java.util.Properties)}
-     * */
+     */
     public Configuration parse() {
         if (parsed) {
             throw new BuilderException("Each XMLConfigBuilder can only be used once.");
@@ -109,7 +109,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     /**
      * {@link XMLConfigBuilder#parse()}
      * 这一步获取document属性 并封装到Configuration
-     * */
+     */
     private void parseConfiguration(XNode root) {
         try {
             //issue #117 read properties first

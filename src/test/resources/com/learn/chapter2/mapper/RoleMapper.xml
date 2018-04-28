@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learn.chapter2.mapper.RoleMapper">
+    <cache></cache>
+    <!--<cache eviction="LRU" flushInterval="600" size="32" readOnly="true"/>-->
+    <select id="getRole" parameterType="long" resultType="role">
+        SELECT
+            id,
+            role_name AS roleName,
+            note
+        FROM t_role
+        WHERE id = #{id}
+    </select>
+    <insert id="insertRole" parameterType="role">
+        INSERT INTO mybatis.t_role (role_name, note) VALUES (#{roleName}, #{note})
+    </insert>
+    <delete id="deleteRole" parameterType="long">
+        DELETE FROM mybatis.t_role
+        WHERE id = #{id}
+    </delete>
+</mapper>

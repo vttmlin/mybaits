@@ -23,6 +23,7 @@ import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
 import org.apache.ibatis.transaction.Transaction;
 
 import java.sql.SQLException;
@@ -37,7 +38,9 @@ public class CachingExecutor implements Executor {
     private final Executor delegate;
     private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
-    /**这个地方 把原本的 simple betch执行器 包装了一下*/
+    /**
+     * 这个地方 把原本的 simple betch执行器 包装了一下
+     */
     public CachingExecutor(Executor delegate) {
         this.delegate = delegate;
         delegate.setExecutorWrapper(this);
@@ -73,6 +76,10 @@ public class CachingExecutor implements Executor {
         return delegate.update(ms, parameterObject);
     }
 
+    /**
+     * 开启缓存之后用的是这个执行器？？？
+     * {@link DefaultSqlSession#selectList(java.lang.String, java.lang.Object, org.apache.ibatis.session.RowBounds)}
+     */
     @Override
     public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
         BoundSql boundSql = ms.getBoundSql(parameterObject);
@@ -86,12 +93,17 @@ public class CachingExecutor implements Executor {
         return delegate.queryCursor(ms, parameter, rowBounds);
     }
 
+    /**
+     * {@link CachingExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler)}
+     */
     @Override
     public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)
             throws SQLException {
         Cache cache = ms.getCache();
         if (cache != null) {
+//            先清除缓存
             flushCacheIfRequired(ms);
+//            判断是否使用缓存
             if (ms.isUseCache() && resultHandler == null) {
                 ensureNoOutParams(ms, boundSql);
                 @SuppressWarnings("unchecked")
@@ -128,6 +140,10 @@ public class CachingExecutor implements Executor {
         }
     }
 
+    /**
+     * {@link CachingExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     * 这个地方是判断存储过程的
+     */
     private void ensureNoOutParams(MappedStatement ms, BoundSql boundSql) {
         if (ms.getStatementType() == StatementType.CALLABLE) {
             for (ParameterMapping parameterMapping : boundSql.getParameterMappings()) {
@@ -138,6 +154,9 @@ public class CachingExecutor implements Executor {
         }
     }
 
+    /**
+     * {@link CachingExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler)}
+     */
     @Override
     public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql) {
         return delegate.createCacheKey(ms, parameterObject, rowBounds, boundSql);
@@ -158,6 +177,9 @@ public class CachingExecutor implements Executor {
         delegate.clearLocalCache();
     }
 
+    /**
+     * {@link CachingExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     */
     private void flushCacheIfRequired(MappedStatement ms) {
         Cache cache = ms.getCache();
         if (cache != null && ms.isFlushCacheRequired()) {

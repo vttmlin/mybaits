@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.session;
 
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.builder.CacheRefResolver;
 import org.apache.ibatis.builder.ResultMapResolver;
@@ -64,6 +65,7 @@ import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.scripting.LanguageDriverRegistry;
 import org.apache.ibatis.scripting.defaults.RawLanguageDriver;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
@@ -688,10 +690,16 @@ public class Configuration {
         return incompleteMethods;
     }
 
+    /**
+     * {@link MapperMethod.SqlCommand#resolveMappedStatement(java.lang.Class, java.lang.String, java.lang.Class, org.apache.ibatis.session.Configuration)}
+     */
     public MappedStatement getMappedStatement(String id) {
         return this.getMappedStatement(id, true);
     }
 
+    /**
+     * {@link Configuration#getMappedStatement(java.lang.String)}
+     */
     public MappedStatement getMappedStatement(String id, boolean validateIncompleteStatements) {
         if (validateIncompleteStatements) {
             buildAllStatements();
@@ -719,6 +727,9 @@ public class Configuration {
         mapperRegistry.addMapper(type);
     }
 
+    /**
+     * {@link DefaultSqlSession#getMapper(java.lang.Class)}
+     */
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
         return mapperRegistry.getMapper(type, sqlSession);
     }
@@ -727,10 +738,16 @@ public class Configuration {
         return mapperRegistry.hasMapper(type);
     }
 
+    /**
+     * {@link MapperMethod.SqlCommand#resolveMappedStatement(java.lang.Class, java.lang.String, java.lang.Class, org.apache.ibatis.session.Configuration)}
+     */
     public boolean hasStatement(String statementName) {
         return hasStatement(statementName, true);
     }
 
+    /**
+     * {@link Configuration#hasStatement(java.lang.String)}
+     */
     public boolean hasStatement(String statementName, boolean validateIncompleteStatements) {
         if (validateIncompleteStatements) {
             buildAllStatements();
@@ -746,6 +763,10 @@ public class Configuration {
      * Parses all the unprocessed statement nodes in the cache. It is recommended
      * to call this method once all the mappers are added as it provides fail-fast
      * statement validation.
+     */
+
+    /**
+     * {@link Configuration#hasStatement(java.lang.String, boolean)}
      */
     protected void buildAllStatements() {
         if (!incompleteResultMaps.isEmpty()) {

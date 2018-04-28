@@ -9,10 +9,10 @@ import org.junit.Test;
  */
 public class TestSqlSessionFactoryBuilder {
     @Test
-    public void test(){
+    public void test() {
         SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(this.getClass().getResourceAsStream("/mybatis-config.xml"));
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        System.out.println(sqlSession);
+
     }
 }

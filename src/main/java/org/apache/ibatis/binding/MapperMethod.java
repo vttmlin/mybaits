@@ -47,11 +47,18 @@ public class MapperMethod {
     private final SqlCommand command;
     private final MethodSignature method;
 
+    /**
+     * {@link MapperProxy#cachedMapperMethod(java.lang.reflect.Method)}
+     */
     public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
         this.command = new SqlCommand(config, mapperInterface, method);
         this.method = new MethodSignature(config, mapperInterface, method);
     }
 
+    /**
+     * {@link MapperProxy#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])}
+     * 增删改 返回受影响的行数
+     */
     public Object execute(SqlSession sqlSession, Object[] args) {
         Object result;
         switch (command.getType()) {
@@ -215,6 +222,9 @@ public class MapperMethod {
         private final String name;
         private final SqlCommandType type;
 
+        /**
+         * {@link MapperMethod#MapperMethod(java.lang.Class, java.lang.reflect.Method, org.apache.ibatis.session.Configuration)}
+         */
         public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
             final String methodName = method.getName();
             final Class<?> declaringClass = method.getDeclaringClass();
@@ -245,8 +255,12 @@ public class MapperMethod {
             return type;
         }
 
+        /**
+         * {@link SqlCommand#SqlCommand(org.apache.ibatis.session.Configuration, java.lang.Class, java.lang.reflect.Method)}
+         */
         private MappedStatement resolveMappedStatement(Class<?> mapperInterface, String methodName,
                                                        Class<?> declaringClass, Configuration configuration) {
+            // 获取sqlid
             String statementId = mapperInterface.getName() + "." + methodName;
             if (configuration.hasStatement(statementId)) {
                 return configuration.getMappedStatement(statementId);
@@ -278,6 +292,9 @@ public class MapperMethod {
         private final Integer rowBoundsIndex;
         private final ParamNameResolver paramNameResolver;
 
+        /**
+         * {@link MapperMethod#MapperMethod(java.lang.Class, java.lang.reflect.Method, org.apache.ibatis.session.Configuration)}
+         */
         public MethodSignature(Configuration configuration, Class<?> mapperInterface, Method method) {
             Type resolvedReturnType = TypeParameterResolver.resolveReturnType(method, mapperInterface);
             if (resolvedReturnType instanceof Class<?>) {
@@ -297,6 +314,9 @@ public class MapperMethod {
             this.paramNameResolver = new ParamNameResolver(configuration, method);
         }
 
+        /**
+         * {@link MapperMethod#execute(org.apache.ibatis.session.SqlSession, java.lang.Object[])}
+         */
         public Object convertArgsToSqlCommandParam(Object[] args) {
             return paramNameResolver.getNamedParams(args);
         }

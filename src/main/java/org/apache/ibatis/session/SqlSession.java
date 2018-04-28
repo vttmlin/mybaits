@@ -17,6 +17,7 @@ package org.apache.ibatis.session;
 
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
 
 import java.io.Closeable;
 import java.sql.Connection;
@@ -297,6 +298,9 @@ public interface SqlSession extends Closeable {
      * @param <T>  the mapper type
      * @param type Mapper interface class
      * @return a mapper bound to this SqlSession
+     */
+    /**
+     * 当调用getMapper 会返回 DefaultSqlSession {@link DefaultSqlSession#getMapper(Class)}
      */
     <T> T getMapper(Class<T> type);
 
