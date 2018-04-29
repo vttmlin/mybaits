@@ -53,6 +53,9 @@ public class SimpleExecutor extends BaseExecutor {
         }
     }
 
+    /**
+     * {@link BaseExecutor#queryFromDatabase(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     * */
     @Override
     public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
         Statement stmt = null;
@@ -79,6 +82,9 @@ public class SimpleExecutor extends BaseExecutor {
         return Collections.emptyList();
     }
 
+    /**
+     * {@link SimpleExecutor#doQuery(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.mapping.BoundSql)}
+     * */
     private Statement prepareStatement(StatementHandler handler, Log statementLog) throws SQLException {
         Statement stmt;
         Connection connection = getConnection(statementLog);

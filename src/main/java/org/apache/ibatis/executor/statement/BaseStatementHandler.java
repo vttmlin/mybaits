@@ -80,6 +80,9 @@ public abstract class BaseStatementHandler implements StatementHandler {
         return parameterHandler;
     }
 
+    /**
+     * {@link RoutingStatementHandler#prepare(java.sql.Connection, java.lang.Integer)}
+     * */
     @Override
     public Statement prepare(Connection connection, Integer transactionTimeout) throws SQLException {
         ErrorContext.instance().sql(boundSql.getSql());

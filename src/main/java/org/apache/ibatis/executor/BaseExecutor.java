@@ -132,6 +132,9 @@ public abstract class BaseExecutor implements Executor {
         return query(ms, parameter, rowBounds, resultHandler, key, boundSql);
     }
 
+    /**
+     * {@link CachingExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     * */
     @SuppressWarnings("unchecked")
     @Override
     public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
@@ -147,6 +150,7 @@ public abstract class BaseExecutor implements Executor {
             queryStack++;
             list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
             if (list != null) {
+//                判断存储过程
                 handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
             } else {
                 list = queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);
@@ -258,6 +262,9 @@ public abstract class BaseExecutor implements Executor {
         }
     }
 
+    /**
+     * {@link BaseExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     * */
     @Override
     public void clearLocalCache() {
         if (!closed) {
@@ -302,6 +309,9 @@ public abstract class BaseExecutor implements Executor {
         StatementUtil.applyTransactionTimeout(statement, statement.getQueryTimeout(), transaction.getTimeout());
     }
 
+    /**
+     * {@link BaseExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     * */
     private void handleLocallyCachedOutputParameters(MappedStatement ms, CacheKey key, Object parameter, BoundSql boundSql) {
         if (ms.getStatementType() == StatementType.CALLABLE) {
             final Object cachedParameter = localOutputParameterCache.getObject(key);
@@ -319,6 +329,9 @@ public abstract class BaseExecutor implements Executor {
         }
     }
 
+    /**
+     * {@link BaseExecutor#query(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)}
+     * */
     private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
         List<E> list;
         localCache.putObject(key, EXECUTION_PLACEHOLDER);
