@@ -101,6 +101,9 @@ public abstract class BaseStatementHandler implements StatementHandler {
         }
     }
 
+    /**
+     * {@link BaseStatementHandler#prepare(java.sql.Connection, java.lang.Integer)}
+     * */
     protected abstract Statement instantiateStatement(Connection connection) throws SQLException;
 
     protected void setStatementTimeout(Statement stmt, Integer transactionTimeout) throws SQLException {

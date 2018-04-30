@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.logging.jdbc;
 
+import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
@@ -52,6 +53,9 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
         return (Connection) Proxy.newProxyInstance(cl, new Class[]{Connection.class}, handler);
     }
 
+    /**
+     * {@link PreparedStatementHandler#instantiateStatement(java.sql.Connection)}
+     * */
     @Override
     public Object invoke(Object proxy, Method method, Object[] params)
             throws Throwable {
@@ -60,6 +64,7 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
                 return method.invoke(this, params);
             }
             if ("prepareStatement".equals(method.getName())) {
+//                这个地方打印sql语句
                 if (isDebugEnabled()) {
                     debug(" Preparing: " + removeBreakingWhitespace((String) params[0]), true);
                 }

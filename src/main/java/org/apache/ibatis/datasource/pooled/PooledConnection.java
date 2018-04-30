@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.datasource.pooled;
 
+import org.apache.ibatis.logging.jdbc.ConnectionLogger;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
 import java.lang.reflect.InvocationHandler;
@@ -229,6 +230,9 @@ class PooledConnection implements InvocationHandler {
      * @param args   - the parameters to be passed to the method
      * @see java.lang.reflect.InvocationHandler#invoke(Object, java.lang.reflect.Method, Object[])
      */
+    /**
+     * {@link ConnectionLogger#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])}
+     * */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String methodName = method.getName();

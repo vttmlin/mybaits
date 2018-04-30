@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.logging.jdbc;
 
+import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
@@ -53,6 +54,9 @@ public final class PreparedStatementLogger extends BaseJdbcLogger implements Inv
         return (PreparedStatement) Proxy.newProxyInstance(cl, new Class[]{PreparedStatement.class, CallableStatement.class}, handler);
     }
 
+    /**
+     * {@link PreparedStatementHandler#query(java.sql.Statement, org.apache.ibatis.session.ResultHandler)}
+     * */
     @Override
     public Object invoke(Object proxy, Method method, Object[] params) throws Throwable {
         try {

@@ -41,6 +41,9 @@ public class StatementUtil {
      * @param transactionTimeout a transaction timeout
      * @throws SQLException if a database access error occurs, this method is called on a closed <code>Statement</code>
      */
+    /**
+     * {@link BaseStatementHandler#setStatementTimeout(java.sql.Statement, java.lang.Integer)}
+     * */
     public static void applyTransactionTimeout(Statement statement, Integer queryTimeout, Integer transactionTimeout) throws SQLException {
         if (transactionTimeout == null) {
             return;

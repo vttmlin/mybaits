@@ -17,8 +17,10 @@ package org.apache.ibatis.executor.statement;
 
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.SimpleExecutor;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
+import org.apache.ibatis.logging.jdbc.ConnectionLogger;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ResultHandler;
@@ -53,9 +55,13 @@ public class PreparedStatementHandler extends BaseStatementHandler {
         ps.addBatch();
     }
 
+    /**
+     * {@link SimpleExecutor#doQuery(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.mapping.BoundSql)}
+     * */
     @Override
     public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
         PreparedStatement ps = (PreparedStatement) statement;
+        //这才是真正执行sql语句的地方
         ps.execute();
         return resultSetHandler.<E>handleResultSets(ps);
     }
@@ -67,6 +73,10 @@ public class PreparedStatementHandler extends BaseStatementHandler {
         return resultSetHandler.<E>handleCursorResultSets(ps);
     }
 
+    /**
+     * {@link BaseStatementHandler#prepare(java.sql.Connection, java.lang.Integer)}
+     *  <code>return connection.prepareStatement(sql);</code> 这句调用的是 {@link ConnectionLogger#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])}
+     * */
     @Override
     protected Statement instantiateStatement(Connection connection) throws SQLException {
         String sql = boundSql.getSql();

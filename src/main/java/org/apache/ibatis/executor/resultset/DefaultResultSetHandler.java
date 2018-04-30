@@ -29,6 +29,7 @@ import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.result.DefaultResultContext;
 import org.apache.ibatis.executor.result.DefaultResultHandler;
 import org.apache.ibatis.executor.result.ResultMapException;
+import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.reflection.MetaObject;
@@ -140,6 +141,9 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     //
     // HANDLE RESULT SETS
     //
+    /**
+     * {@link PreparedStatementHandler#query(java.sql.Statement, org.apache.ibatis.session.ResultHandler)}
+     * */
     @Override
     public List<Object> handleResultSets(Statement stmt) throws SQLException {
         ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
@@ -196,6 +200,9 @@ public class DefaultResultSetHandler implements ResultSetHandler {
         return new DefaultCursor<E>(this, resultMap, rsw, rowBounds);
     }
 
+    /**
+     * {@link DefaultResultSetHandler#handleResultSets(java.sql.Statement)}
+     * */
     private ResultSetWrapper getFirstResultSet(Statement stmt) throws SQLException {
         ResultSet rs = stmt.getResultSet();
         while (rs == null) {
@@ -213,6 +220,9 @@ public class DefaultResultSetHandler implements ResultSetHandler {
         return rs != null ? new ResultSetWrapper(rs, configuration) : null;
     }
 
+    /**
+     * {@link DefaultResultSetHandler#handleResultSets(java.sql.Statement)}
+     * */
     private ResultSetWrapper getNextResultSet(Statement stmt) throws SQLException {
         // Making this method tolerant of bad JDBC drivers
         try {
@@ -247,6 +257,9 @@ public class DefaultResultSetHandler implements ResultSetHandler {
         nestedResultObjects.clear();
     }
 
+    /**
+     * {@link DefaultResultSetHandler#handleResultSets(java.sql.Statement)}
+     * */
     private void validateResultMapsCount(ResultSetWrapper rsw, int resultMapCount) {
         if (rsw != null && resultMapCount < 1) {
             throw new ExecutorException("A query was run and no Result Maps were found for the Mapped Statement '" + mappedStatement.getId()
