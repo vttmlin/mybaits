@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.builder;
 
+import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
@@ -83,6 +84,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
         return currentNamespace + "." + base;
     }
 
+    /**
+     * {@link MapperAnnotationBuilder#parseCacheRef()}
+     * */
     public Cache useCacheRef(String namespace) {
         if (namespace == null) {
             throw new BuilderException("cache-ref element requires a namespace attribute.");
@@ -101,6 +105,12 @@ public class MapperBuilderAssistant extends BaseBuilder {
         }
     }
 
+
+
+    /**
+     * 按照namespace缓存
+     * {@link MapperAnnotationBuilder#parseCache()}
+     * */
     public Cache useNewCache(Class<? extends Cache> typeClass,
                              Class<? extends Cache> evictionClass,
                              Long flushInterval,
