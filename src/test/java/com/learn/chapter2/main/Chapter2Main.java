@@ -25,10 +25,6 @@ public class Chapter2Main {
             role = roleMapper.getRole(1L);
             System.out.println(role.getId());
             sqlSession.commit();
-//            roleMapper = sqlSession.getMapper(RoleMapper.class);
-//            role = roleMapper.getRole(1L);
-//            System.out.println(role.getId());
-//            sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();
             sqlSession.rollback();

@@ -67,7 +67,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
      */
     private MapperMethod cachedMapperMethod(Method method) {
         MapperMethod mapperMethod = methodCache.get(method);
-        // 这里只会加载一次 入股要有 就不会初始化
+        // 这里只会加载一次 如果要有 就不会初始化
         if (mapperMethod == null) {
             mapperMethod = new MapperMethod(mapperInterface, method, sqlSession.getConfiguration());
             methodCache.put(method, mapperMethod);
