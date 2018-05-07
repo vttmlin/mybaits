@@ -11,6 +11,17 @@
         FROM t_role
         WHERE id = #{id}
     </select>
+    <select id="getRoleParameter" resultType="role">
+        SELECT
+        id,
+        role_name AS roleName,
+        note
+        FROM t_role
+        WHERE id = #{id}
+        <if test="flag==true">
+            and 1=1
+        </if>
+    </select>
     <insert id="insertRole" parameterType="role">
         INSERT INTO mybatis.t_role (role_name, note) VALUES (#{roleName}, #{note})
     </insert>

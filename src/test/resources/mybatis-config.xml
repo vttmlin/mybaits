@@ -30,8 +30,8 @@
 
 
     <mappers>
-        <!--<mapper resource="com/learn/chapter2/mapper/RoleMapper.xml"/>-->
-        <package name="com/learn/chapter2/mapper"/>
+        <mapper resource="com/learn/chapter2/mapper/RoleMapper.xml"/>
+        <!--<package name="com/learn/chapter2/mapper"/>-->
     </mappers>
 
 </configuration>
